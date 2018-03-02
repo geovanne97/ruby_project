@@ -10,9 +10,9 @@ class Backoffice::CategoriesController < BackofficeController
   end
 
   def create
-    @category = Category.new(params_category)
-    @category.save
-    if @category.save
+    @category = CategoryService.create(params_category)
+
+    unless @category.errors.any?
       redirect_to backoffice_categories_path, notice: "A categoria (#{@category.description}) foi salva com sucesso!"
 
     else
@@ -25,7 +25,7 @@ class Backoffice::CategoriesController < BackofficeController
   end
 
   def update
-    
+
     if @category.update(params_category)
       redirect_to backoffice_categories_path, notice: "A categoria (#{@category.description}) foi atualizada com sucesso!"
     else
