@@ -2,7 +2,10 @@ class Backoffice::AdminsController <  BackofficeController
   before_action :set_admin, only: [:edit, :update, :destroy]
 
   def index
-    @admins = Admin.all
+    #@admins = Admin.all
+
+    #this is used to call a scope, that is in model
+    @admins =  Admin.with_full_access
   end
 
   def new
