@@ -5,7 +5,7 @@ class Backoffice::AdminsController <  BackofficeController
     #@admins = Admin.all
 
     #this is used to call a scope, that is in model
-    @admins =  Admin.with_full_access
+    @admins =  Admin.with_restricted_access
   end
 
   def new
@@ -28,13 +28,6 @@ class Backoffice::AdminsController <  BackofficeController
   end
 
   def update
-    passwd = params[:admin][:password]
-    passwd_confirmation = params[:admin][:password_confirmation]
-
-    if passwd.blank? && passwd_confirmation.blank?
-      params[:admin].delete(:password)
-      params[:admin].delete(:password_confirmation)
-    end
 
     if @admin.update(params_admin)
       redirect_to backoffice_admins_path, notice: "O administrador (#{@admin.email}) foi atualizado com sucesso!"
@@ -60,6 +53,13 @@ class Backoffice::AdminsController <  BackofficeController
   end
 
   def params_admin
+    passwd = params[:admin][:password]
+    passwd_confirmation = params[:admin][:password_confirmation]
+#if the password and the the confirmation are empty he will exclude the attributes 
+    if passwd.blank? && passwd_confirmation.blank?
+      params[:admin].except!(:password, :password_confirmation)
+    end
+
     params.require(:admin).permit(:name, :email, :password, :password_confirmation)
   end
 
