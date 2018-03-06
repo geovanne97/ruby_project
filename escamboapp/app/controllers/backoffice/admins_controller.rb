@@ -1,22 +1,27 @@
 class Backoffice::AdminsController <  BackofficeController
   before_action :set_admin, only: [:edit, :update, :destroy]
+  after_action :verify_authorized, only: :new
+  after_action :verify_policy_scoped, only: :index
 
   def index
     #@admins = Admin.all
 
     #this is used to call a scope, that is in model
-    @admins =  Admin.with_restricted_access
+    #@admins =  Admin.with_restricted_access
+
+    @admins =  policy_scope(Admin)
   end
 
   def new
     @admin = Admin.new
+    authorize @admin
   end
 
   def create
     @admin = Admin.new(params_admin)
     @admin.save
     if @admin.save
-      redirect_to backoffice_admins_path, notice: "O novo administrador (#{@admin.email}) foi salvo com sucesso!"
+      redirect_to backoffice_admins_path, notice: I18n.t('messages.created_with', item: @admin.name)
 
     else
       render :new
@@ -30,7 +35,7 @@ class Backoffice::AdminsController <  BackofficeController
   def update
 
     if @admin.update(params_admin)
-      redirect_to backoffice_admins_path, notice: "O administrador (#{@admin.email}) foi atualizado com sucesso!"
+      redirect_to backoffice_admins_path, notice: I18n.t('messages.updated_with', item: @admin.name)
     else
       render :edit
     end
@@ -40,7 +45,7 @@ class Backoffice::AdminsController <  BackofficeController
     admin_email = @admin.email
 
     if @admin.destroy
-      redirect_to backoffice_admins_path, notice: "O administrador (#{admin_email}) foi deletado com sucesso!"
+      redirect_to backoffice_admins_path, notice: I18n.t('messages.destroyed_with', item: admin_name)
     else
       render :index
     end
@@ -55,7 +60,7 @@ class Backoffice::AdminsController <  BackofficeController
   def params_admin
     passwd = params[:admin][:password]
     passwd_confirmation = params[:admin][:password_confirmation]
-#if the password and the the confirmation are empty he will exclude the attributes 
+#if the password and the the confirmation are empty he will exclude the attributes
     if passwd.blank? && passwd_confirmation.blank?
       params[:admin].except!(:password, :password_confirmation)
     end

@@ -1,19 +1,20 @@
-<h1 class="page-header">Administradores</h1>
-
-    <% if notice %>
-        <div class="alert alert-success alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <%= notice %>
-        </div>
-    <% end %>
+<h1 class="page-header"><%= @admins.model_name.human(count: 2) %></h1>
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            Listando administradores
-            <%= link_to new_backoffice_admin_path, class:"btn btn-success btn-circle pull-right", style:"margin-top: -5px" do %>
-              <i class="fa fa-plus"></i>
+            <%= t('messages.listing', model: @admins.model_name.human(count: 2)) %>
+
+            <% if policy(@admins).new? %>
+                <%= link_to new_backoffice_admin_path, class:"btn btn-success btn-circle pull-right", style:"margin-top: -5px" do %>
+                    <i class="fa fa-plus"></i>
+                <% end %>
+            <% else %>
+                <%= link_to '#', disabled: 'disabled', class:"btn btn-success btn-circle pull-right", style:"margin-top: -5px" do %>
+                    <i class="fa fa-plus"></i>
+                <% end %>
             <% end %>
-        </div>
+           </div>
+
         <!-- /.panel-heading -->
         <div class="panel-body">
             <div class="table-responsive">
