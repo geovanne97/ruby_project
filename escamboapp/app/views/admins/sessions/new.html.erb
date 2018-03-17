@@ -5,7 +5,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Please Sign In</h3>
                 </div>
-                <div class="panel-body">                    
+                <div class="panel-body">
                     <%= form_for(resource, as: resource_name, url: session_path(resource_name, role: "form")) do |f| %>
                         <fieldset>
                             <div class="form-group">
@@ -31,3 +31,9 @@
         </div>
     </div>
 </div>
+<!-- here we will show the error message in devise login, info is the type if the information-->
+<% flash.each do |key, value| %>
+  <script>
+      $.notify("<%= value %>", "info");
+  </script>
+<% end %>
