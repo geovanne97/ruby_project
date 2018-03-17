@@ -4,6 +4,18 @@ class AdminPolicy < ApplicationPolicy
     user.full_access?
   end
 
+  def edit?
+    user.full_access?
+  end
+#this method will permit and will bloque some attributes depending if the admin is full or restricted
+  def permitted_attributes
+    if user.full_access?
+      [:name, :email, :role, :password, :password_confirmation]
+    else
+      [:name, :email, :password, :password_confirmation]
+    end
+  end
+
   class Scope < Scope
     def resolve
       if user.full_access?
