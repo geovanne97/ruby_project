@@ -7,6 +7,10 @@ class AdminPolicy < ApplicationPolicy
   def edit?
     user.full_access?
   end
+
+  def destroy?
+    user.full_access?
+  end
 #this method will permit and will bloque some attributes depending if the admin is full or restricted
   def permitted_attributes
     if user.full_access?

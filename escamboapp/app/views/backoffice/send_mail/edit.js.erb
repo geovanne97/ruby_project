@@ -1,0 +1,8 @@
+//when i taked the admin.id i can take all the admin parameters, like .email
+//alert('<%=  @admin.email %>');
+//this function just will show the page with the page totally loaded
+$(function(){
+  $('#recipient-text').val('<%=  @admin.email %>');
+  $('h4.modal-title').text('<%=  @admin.name %>');
+  $('#sendMailModal').modal();
+});
