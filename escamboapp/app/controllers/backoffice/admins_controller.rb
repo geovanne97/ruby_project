@@ -60,14 +60,22 @@ class Backoffice::AdminsController <  BackofficeController
   end
 
   def params_admin
-    passwd = params[:admin][:password]
-    passwd_confirmation = params[:admin][:password_confirmation]
-#if the password and the the confirmation are empty he will exclude the attributes
-    if passwd.blank? && passwd_confirmation.blank?
+    #passwd = params[:admin][:password]
+    #passwd_confirmation = params[:admin][:password_confirmation]
+    #if the password and the the confirmation are empty he will exclude the attributes
+    if password_blank?
       params[:admin].except!(:password, :password_confirmation)
     end
-
-    params.require(:admin).permit(policy(@admin).permitted_attributes)
+    #this method verify if he is creating a new admin, to confirm that the creator
+    #have full acess to do that, and permit all attributes
+    if @admin.blank?
+      params.require(:admin).permit(:name, :email, :role, :password, :password_confirmation)
+    else
+      params.require(:admin).permit(policy(@admin).permitted_attributes)
+    end
   end
 
+  def password_blank?
+    params[:admin][:password].blank? && params[:admin][:password_confirmation].blank?
+  end
 end
