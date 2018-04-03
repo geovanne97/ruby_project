@@ -25,13 +25,15 @@ namespace :utils do
 
     100.times do
       Ad.create!(
-        title: Faker::Loren.sentence([2,3,4,5].sample),
-        description: LeroleroGenerator.paragraph(Randon.rand(3)),
+        title: Faker::Lorem.sentence([2,3,4,5].sample),
+        description: LeroleroGenerator.paragraph(Random.rand(3)),
         member: Member.all.sample,
-        category: Category.all.sample # O sample é usado para sortear o número 0 e 1
+        category: Category.all.sample, # O sample é usado para sortear o número 0 e 1
+        price: "#{Random.rand(500)},#{Random.rand(99)}",
+        picture: File.new(Rails.root.join('public','templates','images-for-ads',"#{Random.rand(9)}.jpg"), 'r')
       )
   end
 
   puts "anuncio FAKE CADASTRADO com sucesso!"
- end
+end
 end
