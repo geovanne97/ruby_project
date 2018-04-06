@@ -1,8 +1,7 @@
-class Site::HomeController < ApplicationController
-  layout "site"
+class Site::HomeController < SiteController
 
   def index
     @categories = Category.order_by_description#if i want so order in decrescente order i use description: :desc
-    @ads = Ad.last_six  #he will call the scope in ad 
+    @ads = Ad.last_six  #he will call the scope in ad
   end
 end
