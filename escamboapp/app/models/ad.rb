@@ -4,7 +4,8 @@ class Ad < ActiveRecord::Base
 
   # Scope
   #list the anounce 6 by 6 and in desc order
-  scope :last_six, -> {limit(6).order(created_at: :desc)}
+  scope :descending_order, ->(quantity = 10) {limit(quantity).order(created_at: :desc)}
+  scope :to_the, ->(member) {where(member: member)}
 
   #paperclip
   has_attached_file :picture, styles: { medium: "320x150#", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
