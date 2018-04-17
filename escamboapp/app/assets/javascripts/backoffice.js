@@ -1,5 +1,4 @@
 //= require bootstrap_sb_admin_base_v2
-//= require notifyjs
 //= require bootbox
 
 //subscribe data-confirm do rails
